@@ -1,0 +1,29 @@
+{
+  "title": "Add Sidecar to Tail Log File",
+  "description": "Update an existing Deployment to add a sidecar container that tails a log file using a shared emptyDir volume.",
+  "difficulty": "beginner",
+  "time": "15 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      { "text": "intro.md" }
+    ],
+    "finish": {
+      "text": "finish.md"
+    },
+    "assets": {
+      "host01": [
+        "deploy/initial-deployment.yaml"
+      ]
+    }
+  },
+  "environment": {
+    "showdashboard": true,
+    "uidefault": "terminal"
+  },
+  "backend": {
+    "imageid": "kubernetes-cka"
+  }
+}

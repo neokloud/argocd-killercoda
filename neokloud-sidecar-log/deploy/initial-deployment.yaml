@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neokloud-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: neokloud-app
+  template:
+    metadata:
+      labels:
+        app: neokloud-app
+    spec:
+      containers:
+        - name: monitor
+          image: lfcert/monitor:latest
+          env:
+            - name: LOG_FILENAME
+              value: /var/log/neokloud.log
+            - name: DEBUG_MODE
+              value: "false"
+            - name: CONFIG_FILE
+              value: /etc/monitor/config.yaml
+            - name: ENABLE_METRICS
+              value: "true"
+            - name: USE_TLS
+              value: "true"
+            - name: RANDOM_TOKEN
+              value: abc123XYZ
+            - name: IGNORE_CACHE
+              value: "yes"
+            - name: LOG_LEVEL
+              value: "debug"
+            - name: METRIC_ENDPOINT
+              value: http://localhost:8080/metrics
+            - name: TIMEOUT_SECONDS
+              value: "60"
+            - name: API_VERSION
+              value: v2.5
+            - name: CHECKSUM
+              value: 98765abcd
+            - name: SERVICE_MODE
+              value: "agent"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
